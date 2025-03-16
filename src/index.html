@@ -1,0 +1,136 @@
+<!-- 
+
+Matter.js - Slingshot Game Example
+http://brm.io/matter-js/
+
+Pull back the rock on the slingshot to fire!
+
+Tutorial in issue 255 of net magazine
+http://www.creativebloq.com/net-magazine
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .button{
+            font-size: 50px;
+            position: relative;
+            display: inline-block;
+            padding: 20px 25px;
+            background-color: lightblue;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+            margin-bottom: 30px;
+            top: 600px;
+            left: 955px;
+            color: white;
+            
+        }
+
+        .button2{
+            font-size: 50px;
+            position: relative;
+            display: inline-block;
+            padding: 20px 25px;
+            background-color: lightblue;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+            margin-bottom: 30px;
+            top: 700px;
+            left: 150px;
+            color: white;
+        }
+
+        .button3{
+            font-size: 50px;
+            position: relative;
+            display: inline-block;
+            padding: 20px 25px;
+            background-color: lightblue;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+            margin-bottom: 30px;
+            top: 800px;
+            left: -530px;
+            color: white;
+        }
+        
+        .button:hover {
+            cursor : pointer;
+            background-color: lightgreen;
+        }
+        .button2:hover {
+            cursor : pointer;
+            background-color: lightgreen;
+        }
+        .button3:hover {
+            cursor : pointer;
+            background-color: lightgreen;
+        }
+        .hstack {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Website!</h1>
+    <p>This is a simple static website.</p>
+    <button id="clickButton">Click me!</button>
+    <!-- Creating the layout of the webpage.---->
+
+    <div class="hstack">
+
+        <!-- First Row -->
+        <button type="button" class="button">Q</button>
+        <button type="button" class="button">W</button>
+        <button type="button" class="button">E</button>
+        <button type="button" class="button">R</button>
+        <button type="button" class="button">T</button>
+        <button type="button" class="button">Y</button>
+        <button type="button" class="button">U</button>
+        <button type="button" class="button">I</button>
+        <button type="button" class="button">O</button>
+        <button type="button" class="button">P</button>
+
+        <!-- Second Row -->
+        <button type="button" class="button2">A</button>
+        <button type="button" class="button2">S</button>
+        <button type="button" class="button2">D</button>
+        <button type="button" class="button2">F</button>
+        <button type="button" class="button2">G</button>
+        <button type="button" class="button2">H</button>
+        <button type="button" class="button2">J</button>
+        <button type="button" class="button2">K</button>
+        <button type="button" class="button2">L</button>
+
+        <!-- Third Row -->
+        <button type="button" class="button3">Z</button>
+        <button type="button" class="button3">X</button>
+        <button type="button" class="button3">C</button>
+        <button type="button" class="button3">V</button>
+        <button type="button" class="button3">B</button>
+        <button type="button" class="button3">N</button>
+        <button type="button" class="button3">M</button>
+    </div>
+
+    <canvas id="world"></canvas>
+
+    <script>"script.js"</script>
+</body>
+</html>
