@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTP HACKATHON 2025</title>
+    <style>
+        body {
+            background-color: black;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Adjust the max-width as needed */
+        }
+        .text-box {
+            font-size: 24px;
+            border: 1px solid white;
+            padding: 20px; /* Increase padding for larger text box */
+            width: 100%;
+            height: 100px; /* Adjust the height as needed */
+            box-sizing: border-box;
+        }
+        .pre-text {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            font-size: 24px;
+        }
+        .button, .button2, .button3, .button-backspace, .button-space {
+            font-size: 16px;
+            padding: 20px 25px;
+            background-color: lightblue;
+            transition: background-color 0.1s; /* Increased speed */
+            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+            color: white;
+            position: absolute; /* Make buttons move freely */
+            user-select: none; /* Prevent text selection */
+            border-radius: 12px; /* Make buttons rounded */
+        }
+        
+        .button:hover, .button2:hover, .button3:hover, .button-backspace:hover, .button-space:hover {
+            cursor: pointer;
+            background-color: lightgreen;
+        }
+
+        .hstack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="pre-text" id="preTextSpan">RTP HACKATHON 2025</span>
+        <input type="text" id="textbox" class="text-box" readonly>
+    </div>
+
+    <!-- Buttons will be moved freely, so we don't need rows -->
+    <div class="hstack">
+        <button type="button" class="button" data-key="Q">Q</button>
+        <button type="button" class="button" data-key="W">W</button>
+        <button type="button" class="button" data-key="E">E</button>
+        <button type="button" class="button" data-key="R">R</button>
+        <button type="button" class="button" data-key="T">T</button>
+        <button type="button" class="button" data-key="Y">Y</button>
+        <button type="button" class="button" data-key="U">U</button>
+        <button type="button" class="button" data-key="I">I</button>
+        <button type="button" class="button" data-key="O">O</button>
+        <button type="button" class="button" data-key="P">P</button>
+        <button type="button" class="button2" data-key="A">A</button>
+        <button type="button" class="button2" data-key="S">S</button>
+        <button type="button" class="button2" data-key="D">D</button>
+        <button type="button" class="button2" data-key="F">F</button>
+        <button type="button" class="button2" data-key="G">G</button>
+        <button type="button" class="button2" data-key="H">H</button>
+        <button type="button" class="button2" data-key="J">J</button>
+        <button type="button" class="button2" data-key="K">K</button>
+        <button type="button" class="button2" data-key="L">L</button>
+        <button type="button" class="button3" data-key="Z">Z</button>
+        <button type="button" class="button3" data-key="X">X</button>
+        <button type="button" class="button3" data-key="C">C</button>
+        <button type="button" class="button3" data-key="V">V</button>
+        <button type="button" class="button3" data-key="B">B</button>
+        <button type="button" class="button3" data-key="N">N</button>
+        <button type="button" class="button3" data-key="M">M</button>
+        <button type="button" class="button-space" data-key=" ">Space</button>
+        <button type="button" class="button-backspace" data-key="Backspace">Backspace</button>
+    </div>
+
+    <script>
+        const preText = "RTP HACKATHON 2025";
+        const textbox = document.getElementById('textbox');
+        const preTextSpan = document.getElementById('preTextSpan');
+        const buttons = document.querySelectorAll('.button, .button2, .button3, .button-backspace, .button-space');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const key = button.getAttribute('data-key');
+                if (key === 'Backspace') {
+                    textbox.value = textbox.value.slice(0, -1);
+                } else {
+                    textbox.value += key;
+                }
+                handleInput({ target: { value: textbox.value } });
+                increaseSpeed();
+            });
+        });
+
+        function handleInput(event) {
+            const input = event.target.value;
+            if (input.length <= preText.length) {
+                const remainingText = preText.slice(input.length);
+                preTextSpan.textContent = remainingText;
+                preTextSpan.style.left = `${10 + input.length * 14}px`; // Adjust the left position based on input length
+            } else {
+                preTextSpan.textContent = '';
+            }
+        }
+
+        function increaseSpeed() {
+            buttons.forEach(button => {
+                const currentSpeedX = parseFloat(button.dataset.speedX) || 0;
+                const currentSpeedY = parseFloat(button.dataset.speedY) || 0;
+
+                // Increase speed by a factor of 1.5 each click
+                button.dataset.speedX = currentSpeedX * 1.5;
+                button.dataset.speedY = currentSpeedY * 1.5;
+            });
+        }
+
+        function moveButtons() {
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                let speedX = button.dataset.speedX ? parseFloat(button.dataset.speedX) : (Math.random() * 4 - 2); // Increased speed
+                let speedY = button.dataset.speedY ? parseFloat(button.dataset.speedY) : (Math.random() * 4 - 2); // Increased speed
+
+                let newX = rect.left + speedX;
+                let newY = rect.top + speedY;
+
+                // Bounce off the sides
+                if (newX < 0 || newX > window.innerWidth - rect.width) {
+                    speedX = -speedX;
+                    newX = rect.left + speedX;
+                }
+                if (newY < 0 || newY > window.innerHeight - rect.height) {
+                    speedY = -speedY;
+                    newY = rect.top + speedY;
+                }
+
+                // Store the new speed
+                button.dataset.speedX = speedX;
+                button.dataset.speedY = speedY;
+
+                button.style.left = `${newX}px`;
+                button.style.top = `${newY}px`;
+            });
+        }
+
+        function initButtonPositions() {
+            buttons.forEach(button => {
+                const randomLeft = Math.random() * (window.innerWidth - button.offsetWidth);
+                const randomTop = Math.random() * (window.innerHeight - button.offsetHeight);
+                button.style.left = `${randomLeft}px`;
+                button.style.top = `${randomTop}px`;
+            });
+        }
+
+        initButtonPositions();
+        setInterval(moveButtons, 20); // Move buttons every 20ms
+    </script>
+</body>
+</html>
