@@ -56,6 +56,14 @@
         canvas {
             border: 1px solid black;
         }
+
+        .timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: red;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +71,8 @@
         <span class="pre-text" id="preTextSpan">SCRAPYARD RTP</span>
         <input type="text" id="textbox" class="text-box" readonly>
     </div>
+
+    <div class="timer" id="timer">00:00</div>
 
     <!-- Buttons will be moved freely, so we don't need rows -->
     <div class="hstack">
@@ -101,6 +111,9 @@
         const textbox = document.getElementById('textbox');
         const preTextSpan = document.getElementById('preTextSpan');
         const buttons = document.querySelectorAll('.button, .button2, .button3, .button-backspace, .button-space');
+        const timerElement = document.getElementById('timer');
+        let timerInterval;
+        let startTime;
 
         buttons.forEach(button => {
             button.addEventListener('click', () => {
@@ -123,6 +136,11 @@
                 preTextSpan.style.left = `${10 + input.length * 14}px`; // Adjust the left position based on input length
             } else {
                 preTextSpan.textContent = '';
+            }
+
+            if (input === preText) {
+                clearInterval(timerInterval);
+                calculateWPM();
             }
         }
 
@@ -174,8 +192,26 @@
             });
         }
 
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(() => {
+                const elapsedTime = new Date() - startTime;
+                const seconds = Math.floor((elapsedTime / 1000) % 60);
+                const minutes = Math.floor((elapsedTime / 1000 / 60) % 60);
+                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function calculateWPM() {
+            const elapsedTime = (new Date() - startTime) / 1000; // in seconds
+            const words = preText.split(' ').length;
+            const wpm = (words / elapsedTime) * 60; // words per minute
+            alert(`Your typing speed is ${wpm.toFixed(2)} words per minute.`);
+        }
+
         initButtonPositions();
         setInterval(moveButtons, 20); // Move buttons every 20ms
+        startTimer();
     </script>
 </body>
 </html>
