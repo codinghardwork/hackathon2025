@@ -1,217 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>SCRAPYARD RTP</title>
-    <style>
-        body {
-            background-color: black;
-        }
-        .container {
-            position: relative;
-            width: 100%;
-            max-width: 800px; /* Adjust the max-width as needed */
-        }
-        .text-box {
-            font-size: 24px;
-            border: 1px solid white;
-            padding: 20px; /* Increase padding for larger text box */
-            width: 100%;
-            height: 100px; /* Adjust the height as needed */
-            box-sizing: border-box;
-        }
-        .pre-text {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none;
-            font-size: 24px;
-        }
-        .button, .button2, .button3, .button-backspace, .button-space {
-            font-size: 16px;
-            padding: 20px 25px;
-            background-color: lightblue;
-            transition: background-color 0.1s; /* Increased speed */
-            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
-            color: white;
-            position: absolute; /* Make buttons move freely */
-            user-select: none; /* Prevent text selection */
-            border-radius: 12px; /* Make buttons rounded */
-        }
-        
-        .button:hover, .button2:hover, .button3:hover, .button-backspace:hover, .button-space:hover {
-            cursor: pointer;
-            background-color: lightgreen;
-        }
-
-        .hstack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        canvas {
-            border: 1px solid black;
-        }
-
-        .timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: red;
-            font-size: 24px;
-        }
-    </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <span class="pre-text" id="preTextSpan">SCRAPYARD RTP</span>
-        <input type="text" id="textbox" class="text-box" readonly>
+      <span class="pre-text" id="preTextSpan">SCRAPYARD RTP</span>
+      <input type="text" id="textbox" class="text-box" readonly />
     </div>
 
     <div class="timer" id="timer">00:00</div>
 
     <!-- Buttons will be moved freely, so we don't need rows -->
     <div class="hstack">
-        <button type="button" class="button" data-key="Q">Q</button>
-        <button type="button" class="button" data-key="W">W</button>
-        <button type="button" class="button" data-key="E">E</button>
-        <button type="button" class="button" data-key="R">R</button>
-        <button type="button" class="button" data-key="T">T</button>
-        <button type="button" class="button" data-key="Y">Y</button>
-        <button type="button" class="button" data-key="U">U</button>
-        <button type="button" class="button" data-key="I">I</button>
-        <button type="button" class="button" data-key="O">O</button>
-        <button type="button" class="button" data-key="P">P</button>
-        <button type="button" class="button2" data-key="A">A</button>
-        <button type="button" class="button2" data-key="S">S</button>
-        <button type="button" class="button2" data-key="D">D</button>
-        <button type="button" class="button2" data-key="F">F</button>
-        <button type="button" class="button2" data-key="G">G</button>
-        <button type="button" class="button2" data-key="H">H</button>
-        <button type="button" class="button2" data-key="J">J</button>
-        <button type="button" class="button2" data-key="K">K</button>
-        <button type="button" class="button2" data-key="L">L</button>
-        <button type="button" class="button3" data-key="Z">Z</button>
-        <button type="button" class="button3" data-key="X">X</button>
-        <button type="button" class="button3" data-key="C">C</button>
-        <button type="button" class="button3" data-key="V">V</button>
-        <button type="button" class="button3" data-key="B">B</button>
-        <button type="button" class="button3" data-key="N">N</button>
-        <button type="button" class="button3" data-key="M">M</button>
-        <button type="button" class="button-space" data-key=" ">Space</button>
-        <button type="button" class="button-backspace" data-key="Backspace">Backspace</button>
+      <button type="button" class="button" data-key="Q">Q</button>
+      <button type="button" class="button" data-key="W">W</button>
+      <button type="button" class="button" data-key="E">E</button>
+      <button type="button" class="button" data-key="R">R</button>
+      <button type="button" class="button" data-key="T">T</button>
+      <button type="button" class="button" data-key="Y">Y</button>
+      <button type="button" class="button" data-key="U">U</button>
+      <button type="button" class="button" data-key="I">I</button>
+      <button type="button" class="button" data-key="O">O</button>
+      <button type="button" class="button" data-key="P">P</button>
+      <button type="button" class="button2" data-key="A">A</button>
+      <button type="button" class="button2" data-key="S">S</button>
+      <button type="button" class="button2" data-key="D">D</button>
+      <button type="button" class="button2" data-key="F">F</button>
+      <button type="button" class="button2" data-key="G">G</button>
+      <button type="button" class="button2" data-key="H">H</button>
+      <button type="button" class="button2" data-key="J">J</button>
+      <button type="button" class="button2" data-key="K">K</button>
+      <button type="button" class="button2" data-key="L">L</button>
+      <button type="button" class="button3" data-key="Z">Z</button>
+      <button type="button" class="button3" data-key="X">X</button>
+      <button type="button" class="button3" data-key="C">C</button>
+      <button type="button" class="button3" data-key="V">V</button>
+      <button type="button" class="button3" data-key="B">B</button>
+      <button type="button" class="button3" data-key="N">N</button>
+      <button type="button" class="button3" data-key="M">M</button>
+      <button type="button" class="button-space" data-key=" ">Space</button>
+      <button type="button" class="button-backspace" data-key="Backspace">
+        Backspace
+      </button>
     </div>
 
     <script>
-        const preText = "SCRAPYARD RTP";
-        const textbox = document.getElementById('textbox');
-        const preTextSpan = document.getElementById('preTextSpan');
-        const buttons = document.querySelectorAll('.button, .button2, .button3, .button-backspace, .button-space');
-        const timerElement = document.getElementById('timer');
-        let timerInterval;
-        let startTime;
+      const preText = "SCRAPYARD RTP";
+      const textbox = document.getElementById("textbox");
+      const preTextSpan = document.getElementById("preTextSpan");
+      const buttons = document.querySelectorAll(
+        ".button, .button2, .button3, .button-backspace, .button-space"
+      );
+      const timerElement = document.getElementById("timer");
+      let timerInterval;
+      let startTime;
 
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                const key = button.getAttribute('data-key');
-                if (key === 'Backspace') {
-                    textbox.value = textbox.value.slice(0, -1);
-                } else {
-                    textbox.value += key;
-                }
-                handleInput({ target: { value: textbox.value } });
-                increaseSpeed();
-            });
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.getAttribute("data-key");
+          if (key === "Backspace") {
+            textbox.value = textbox.value.slice(0, -1);
+          } else {
+            textbox.value += key;
+          }
+          handleInput({ target: { value: textbox.value } });
+          increaseSpeed();
         });
+      });
 
-        function handleInput(event) {
-            const input = event.target.value;
-            if (input.length <= preText.length) {
-                const remainingText = preText.slice(input.length);
-                preTextSpan.textContent = remainingText;
-                preTextSpan.style.left = `${10 + input.length * 14}px`; // Adjust the left position based on input length
-            } else {
-                preTextSpan.textContent = '';
-            }
-
-            if (input === preText) {
-                clearInterval(timerInterval);
-                calculateWPM();
-            }
+      function handleInput(event) {
+        const input = event.target.value;
+        if (input.length <= preText.length) {
+          const remainingText = preText.slice(input.length);
+          preTextSpan.textContent = remainingText;
+          preTextSpan.style.centre = `${10 + input.length * 14}px`; // Adjust the left position based on input length
+        } else {
+          preTextSpan.textContent = "";
         }
 
-        function increaseSpeed() {
-            buttons.forEach(button => {
-                const currentSpeedX = parseFloat(button.dataset.speedX) || 0;
-                const currentSpeedY = parseFloat(button.dataset.speedY) || 0;
-
-                // Increase speed by a factor of 1.5 each click
-                button.dataset.speedX = currentSpeedX * 1.5;
-                button.dataset.speedY = currentSpeedY * 1.5;
-            });
+        if (input === preText) {
+          clearInterval(timerInterval);
+          calculateWPM();
         }
+      }
 
-        function moveButtons() {
-            buttons.forEach(button => {
-                const rect = button.getBoundingClientRect();
-                let speedX = button.dataset.speedX ? parseFloat(button.dataset.speedX) : (Math.random() * 4 - 2); // Increased speed
-                let speedY = button.dataset.speedY ? parseFloat(button.dataset.speedY) : (Math.random() * 4 - 2); // Increased speed
+      function increaseSpeed() {
+        buttons.forEach((button) => {
+          const currentSpeedX = parseFloat(button.dataset.speedX) || 0;
+          const currentSpeedY = parseFloat(button.dataset.speedY) || 0;
 
-                let newX = rect.left + speedX;
-                let newY = rect.top + speedY;
+          // Increase speed by a factor of 1.5 each click
+          button.dataset.speedX = currentSpeedX * 1.5;
+          button.dataset.speedY = currentSpeedY * 1.5;
+        });
+      }
 
-                // Bounce off the sides
-                if (newX < 0 || newX > window.innerWidth - rect.width) {
-                    speedX = -speedX;
-                    newX = rect.left + speedX;
-                }
-                if (newY < 0 || newY > window.innerHeight - rect.height) {
-                    speedY = -speedY;
-                    newY = rect.top + speedY;
-                }
+      function moveButtons() {
+        buttons.forEach((button) => {
+          const rect = button.getBoundingClientRect();
+          let speedX = button.dataset.speedX
+            ? parseFloat(button.dataset.speedX)
+            : Math.random() * 4 - 2; // Increased speed
+          let speedY = button.dataset.speedY
+            ? parseFloat(button.dataset.speedY)
+            : Math.random() * 4 - 2; // Increased speed
 
-                // Store the new speed
-                button.dataset.speedX = speedX;
-                button.dataset.speedY = speedY;
+          let newX = rect.left + speedX;
+          let newY = rect.top + speedY;
 
-                button.style.left = `${newX}px`;
-                button.style.top = `${newY}px`;
-            });
-        }
+          // Bounce off the sides
+          if (newX < 0 || newX > window.innerWidth - rect.width) {
+            speedX = -speedX;
+            newX = rect.left + speedX;
+          }
+          if (newY < 0 || newY > window.innerHeight - rect.height) {
+            speedY = -speedY;
+            newY = rect.top + speedY;
+          }
 
-        function initButtonPositions() {
-            buttons.forEach(button => {
-                const randomLeft = Math.random() * (window.innerWidth - button.offsetWidth);
-                const randomTop = Math.random() * (window.innerHeight - button.offsetHeight);
-                button.style.left = `${randomLeft}px`;
-                button.style.top = `${randomTop}px`;
-            });
-        }
+          // Store the new speed
+          button.dataset.speedX = speedX;
+          button.dataset.speedY = speedY;
 
-        function startTimer() {
-            startTime = new Date();
-            timerInterval = setInterval(() => {
-                const elapsedTime = new Date() - startTime;
-                const seconds = Math.floor((elapsedTime / 1000) % 60);
-                const minutes = Math.floor((elapsedTime / 1000 / 60) % 60);
-                timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }, 1000);
-        }
+          button.style.left = `${newX}px`;
+          button.style.top = `${newY}px`;
+        });
+      }
 
-        function calculateWPM() {
-            const elapsedTime = (new Date() - startTime) / 1000; // in seconds
-            const words = preText.split(' ').length;
-            const wpm = (words / elapsedTime) * 60; // words per minute
-            alert(`Your typing speed is ${wpm.toFixed(2)} words per minute.`);
-        }
+      function initButtonPositions() {
+        buttons.forEach((button) => {
+          const randomLeft =
+            Math.random() * (window.innerWidth - button.offsetWidth);
+          const randomTop =
+            Math.random() * (window.innerHeight - button.offsetHeight);
+          button.style.left = `${randomLeft}px`;
+          button.style.top = `${randomTop}px`;
+        });
+      }
 
-        initButtonPositions();
-        setInterval(moveButtons, 20); // Move buttons every 20ms
-        startTimer();
+      function startTimer() {
+        startTime = new Date();
+        timerInterval = setInterval(() => {
+          const elapsedTime = new Date() - startTime;
+          const seconds = Math.floor((elapsedTime / 1000) % 60);
+          const minutes = Math.floor((elapsedTime / 1000 / 60) % 60);
+          timerElement.textContent = `${String(minutes).padStart(
+            2,
+            "0"
+          )}:${String(seconds).padStart(2, "0")}`;
+        }, 1000);
+      }
+
+      function calculateWPM() {
+        const elapsedTime = (new Date() - startTime) / 1000; // in seconds
+        const words = preText.split(" ").length;
+        const wpm = (words / elapsedTime) * 60; // words per minute
+        alert(`Your typing speed is ${wpm.toFixed(2)} words per minute.`);
+      }
+
+      initButtonPositions();
+      setInterval(moveButtons, 20); // Move buttons every 20ms
+      startTimer();
     </script>
-</body>
+  </body>
 </html>
